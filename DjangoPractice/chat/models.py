@@ -1,5 +1,3 @@
-from fileinput import filename
-from tkinter import CASCADE
 from django.db import models
 
 
