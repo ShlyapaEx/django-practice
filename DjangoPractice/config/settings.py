@@ -41,9 +41,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'api.apps.ApiConfig',
-    'personal.apps.PersonalConfig',
-    'chat.apps.ChatConfig'
+    'apps.api.apps.ApiConfig',
+    'apps.personal.apps.PersonalConfig',
+    'apps.chat.apps.ChatConfig'
 ]
 
 MIDDLEWARE = [
@@ -81,6 +81,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
+# TODO: Перенести данные в setenv
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',

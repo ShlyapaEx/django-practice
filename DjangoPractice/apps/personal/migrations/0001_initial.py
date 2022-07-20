@@ -5,7 +5,7 @@ import django.contrib.auth.models
 import django.contrib.auth.validators
 from django.db import migrations, models
 import django.utils.timezone
-import personal.models
+import apps.personal.models
 
 
 class Migration(migrations.Migration):
@@ -45,7 +45,7 @@ class Migration(migrations.Migration):
                 ('password', models.CharField(
                     max_length=20, verbose_name='пароль пользователя')),
                 ('photo', models.ImageField(
-                    upload_to=personal.models.User.get_user_directory_path, verbose_name='аватарка пользователя')),
+                    upload_to=apps.personal.models.User.get_user_directory_path, verbose_name='аватарка пользователя')),
                 ('creation_date', models.DateTimeField(
                     auto_now_add=True, verbose_name='дата создания пользователя')),
                 ('friends', models.ManyToManyField(to=settings.AUTH_USER_MODEL)),
