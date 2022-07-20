@@ -1,3 +1,5 @@
 from django.contrib import admin
+from .models import Chat, Attachment, Message
 
-# Register your models here.
+models_list = (Chat, Attachment, Message)
+admin.site.register(models_list)
