@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'django_light',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -40,7 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'api.apps.ApiConfig',
-    'personal.apps.PersonalConfig'
+    'personal.apps.PersonalConfig',
+    'chat.apps.ChatConfig'
 ]
 
 MIDDLEWARE = [
@@ -135,3 +137,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_ROOT = 'media/'
 MEDIA_URL = 'media/'
+
+# User model
+
+AUTH_USER_MODEL = 'personal.User'
