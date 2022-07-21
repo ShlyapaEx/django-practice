@@ -12,20 +12,10 @@ class Chat(models.Model):
     class Meta:
         db_table = "chat"
 
-# TODO: Вынести get_chat_directory_path в другой файл
-
-
-def get_chat_directory_path(instance: Chat, filename) -> str:
-    """Возвращает путь загрузки файлов в формате MEDIA_ROOT/chat_<first_user>_<second_user>/<filename>"""
-    print(type(filename))
-    return 'chat_{0}_{1}'.format(
-        instance.message.id,
-        filename
-    )
-
 
 class Message(models.Model):
     """Сообщение, отправляемое от одного пользователя к другому"""
+
     chat = models.ForeignKey('Chat',
                              on_delete=models.CASCADE,
                              verbose_name="чат, в котором будет осуществляться переписка"
@@ -46,6 +36,15 @@ class Message(models.Model):
 
 class Attachment(models.Model):
     """Вложенные файлы к сообщению"""
+
+    def get_chat_directory_path(instance: Chat, filename) -> str:
+        """Возвращает путь загрузки файлов в формате TODO"""
+        return 'chat_{0}/message_{1}/{2}'.format(
+            instance.message.chat.id,
+            instance.message.id,
+            filename
+        )
+
     file_owner = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     message = models.ForeignKey('Message', on_delete=models.CASCADE)
@@ -54,7 +53,7 @@ class Attachment(models.Model):
     file = models.FileField(
         "файл, прикреплённый к сообщению", upload_to=get_chat_directory_path)
     upload_date = models.DateTimeField(
-        "дата загрузки файла", auto_now_add=True)
+        "дата загрузки файла", auto_now_add=True, )
 
     class Meta:
         db_table = "attachment"

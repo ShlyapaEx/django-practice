@@ -56,7 +56,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True,
                  primary_key=True, serialize=False, verbose_name='ID')),
-                ('file', models.FileField(upload_to=apps.chat.models.get_chat_directory_path,
+                ('file', models.FileField(upload_to=apps.chat.models.Attachment.get_chat_directory_path,
                  verbose_name='файл, прикреплённый к сообщению')),
                 ('upload_date', models.DateTimeField(
                     auto_now_add=True, verbose_name='дата загрузки файла')),
