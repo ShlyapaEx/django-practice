@@ -12,28 +12,16 @@ class CustomUserAdmin(UserAdmin):
     model = User
 
     fieldsets = (
+        *UserAdmin.fieldsets,
         (
-            None,
-            {
-                'fields': user_list_fields
-            }
+            "Дополнительная информация", {'fields': user_list_fields[2:]}
         ),
     )
 
-    # add_fieldsets = (
-    #     *UserAdmin.add_fieldsets,
-    #     (
-    #         'Custom add fields',
-    #         {
-    #             "fields": ('birth_date', 'photo'),
-    #         },
-    #     ),
-    # )
-    print(CustomUserCreationForm.Meta.fields)
     add_fieldsets = (
         *UserAdmin.add_fieldsets,
         (
-            None, {"fields": user_creation_fields[3:]}
+            "Дополнительная информация", {"fields": user_creation_fields[3:]}
         ),
     )
 
