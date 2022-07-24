@@ -6,11 +6,12 @@ class MessageInline(admin.TabularInline):
     """ Inline сообщений(Message) в Chat """
     model = Message
     extra = 0
+    ordering = ('sent_at',)
 
 
 class ChatAdmin(admin.ModelAdmin):
     """ Админка для Chat с Inline """
-    inlines = [MessageInline, ]
+    inlines = (MessageInline, )
 
 
 class AttachmentInline(admin.TabularInline):
@@ -23,7 +24,8 @@ class AttachmentInline(admin.TabularInline):
 class MessageAdmin(admin.ModelAdmin):
     """ Админка для Message c Inline """
     model = Message
-    inlines = [AttachmentInline, ]
+    readonly_fields = ('sent_at',)
+    inlines = (AttachmentInline, )
 
 
 admin.site.register(Attachment)

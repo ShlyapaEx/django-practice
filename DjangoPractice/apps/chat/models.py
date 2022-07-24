@@ -23,7 +23,7 @@ class Chat(models.Model):
         for user in users_queryset:
             user_list.append(user.username)
 
-        return 'Users: {}'.format(user_list)
+        return 'Chat_{0}, Users: {1}'.format(self.id, user_list)
 
 
 class Message(models.Model):
@@ -48,13 +48,14 @@ class Message(models.Model):
 
     class Meta:
         db_table = "message"
+        ordering = ('sent_at',)
 
 
 class Attachment(models.Model):
     """Вложенный файл к сообщению"""
 
     def get_chat_directory_path(instance: Chat, filename) -> str:
-        """Возвращает путь загрузки файлов в формате TODO"""
+        """Возвращает путь загрузки файлов в формате chats/chat_id/message_id/filename"""
         return 'chats/chat_{0}/message_{1}/{2}'.format(
             instance.message.chat.id,
             instance.message.id,
