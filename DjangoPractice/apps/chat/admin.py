@@ -1,5 +1,31 @@
 from django.contrib import admin
 from .models import Chat, Attachment, Message
 
-models_list = (Chat, Attachment, Message)
-admin.site.register(models_list)
+
+class MessageInline(admin.TabularInline):
+    """ Inline сообщений(Message) в Chat """
+    model = Message
+    extra = 0
+
+
+class ChatAdmin(admin.ModelAdmin):
+    """ Админка для Chat с Inline """
+    inlines = [MessageInline, ]
+
+
+class AttachmentInline(admin.TabularInline):
+    """ Inline прикреплённых файлов(Attachment) в Message """
+    model = Attachment
+    fk_name = 'message'
+    extra = 0
+
+
+class MessageAdmin(admin.ModelAdmin):
+    """ Админка для Message c Inline """
+    model = Message
+    inlines = [AttachmentInline, ]
+
+
+admin.site.register(Attachment)
+admin.site.register(Chat, ChatAdmin)
+admin.site.register(Message, MessageAdmin)

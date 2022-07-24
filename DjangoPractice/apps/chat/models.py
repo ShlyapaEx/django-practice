@@ -1,16 +1,29 @@
 from django.db import models
+from django.db.models.signals import post_save
 from django.conf import settings
+from django.dispatch import receiver
 
 
 class Chat(models.Model):
     """Чат, в котором общаются пользователи"""
-    first_user = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.DO_NOTHING, related_name="first_user")
-    second_user = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.DO_NOTHING, related_name="second_user")
+
+    users = models.ManyToManyField(
+        settings.AUTH_USER_MODEL,
+        verbose_name="Пользователи в чате",
+        related_name="chats"
+    )
 
     class Meta:
         db_table = "chat"
+
+    def __str__(self) -> str:
+
+        user_list = []
+        users_queryset = self.users.all()
+        for user in users_queryset:
+            user_list.append(user.username)
+
+        return 'Users: {}'.format(user_list)
 
 
 class Message(models.Model):
@@ -18,38 +31,45 @@ class Message(models.Model):
 
     chat = models.ForeignKey('Chat',
                              on_delete=models.CASCADE,
-                             verbose_name="чат, в котором будет осуществляться переписка"
+                             verbose_name="чат, в котором будет осуществляться переписка",
+                             related_name="messages"
                              )
     text = models.TextField("текст сообщения", blank=False, max_length=1024)
     sent_at = models.DateTimeField("дата отсылки сообщения", auto_now_add=True)
     last_updated_at = models.DateTimeField(
         "дата изменения сообщения", auto_now=True)
 
-    from_user = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, related_name="from_user", verbose_name="отправитель", null=True)
-    to_user = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, related_name="to_user", verbose_name="получатель", null=True)
+    sender = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        null=True,
+        on_delete=models.SET_NULL,
+        verbose_name="отправитель"
+    )
 
     class Meta:
         db_table = "message"
 
 
 class Attachment(models.Model):
-    """Вложенные файлы к сообщению"""
+    """Вложенный файл к сообщению"""
 
     def get_chat_directory_path(instance: Chat, filename) -> str:
         """Возвращает путь загрузки файлов в формате TODO"""
-        return 'chat_{0}/message_{1}/{2}'.format(
+        return 'chats/chat_{0}/message_{1}/{2}'.format(
             instance.message.chat.id,
             instance.message.id,
             filename
         )
 
     file_owner = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    message = models.ForeignKey('Message', on_delete=models.CASCADE)
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        verbose_name='владелец файла'
+    )
+    message = models.ForeignKey(
+        'Message', on_delete=models.CASCADE, related_name="attachments")
 
-    # TODO: Ограничение не количество файлов в сообщении
+    # TODO: Ограничение нa количество файлов в сообщении
     file = models.FileField(
         "файл, прикреплённый к сообщению", upload_to=get_chat_directory_path)
     upload_date = models.DateTimeField(

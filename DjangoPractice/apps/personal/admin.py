@@ -1,16 +1,29 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
+
+from apps.chat.models import Chat
 from .forms import CustomUserCreationForm, CustomUserChangeForm
 from .models import User
 
 from .forms import user_creation_fields, user_list_fields
 
 
+class ChatInline(admin.TabularInline):
+    model = User.chats.through
+    extra = 0
+
+
+# class ChatAdmin(admin.ModelAdmin):
+#     inlines = [
+#         ChatInline,
+#     ]
+
+
 class CustomUserAdmin(UserAdmin):
     add_form = CustomUserCreationForm
     form = CustomUserChangeForm
     model = User
-
+    inlines = [ChatInline]
     fieldsets = (
         *UserAdmin.fieldsets,
         (
