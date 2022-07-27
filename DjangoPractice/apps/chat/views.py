@@ -1,10 +1,9 @@
-from django.shortcuts import render
-from rest_framework import generics
+from rest_framework import viewsets
 
 from .services import read_chat_list
 from .serializers import ChatSerializer
 
 
-class ChatAPIView(generics.ListAPIView):
+class ChatAPIViewSet(viewsets.ModelViewSet):
     queryset = read_chat_list()
     serializer_class = ChatSerializer
