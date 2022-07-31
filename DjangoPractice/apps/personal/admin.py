@@ -13,12 +13,6 @@ class ChatInline(admin.TabularInline):
     extra = 0
 
 
-# class ChatAdmin(admin.ModelAdmin):
-#     inlines = [
-#         ChatInline,
-#     ]
-
-
 class CustomUserAdmin(UserAdmin):
     add_form = CustomUserCreationForm
     form = CustomUserChangeForm
