@@ -6,7 +6,14 @@ from django.dispatch import receiver
 
 class Chat(models.Model):
     """Чат, в котором общаются пользователи"""
+    name = models.CharField("Название чата", max_length=30)
 
+    owner = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        verbose_name="Создатель чата",
+        related_name="owned_chats",
+        on_delete=models.DO_NOTHING
+    )
     users = models.ManyToManyField(
         settings.AUTH_USER_MODEL,
         verbose_name="Пользователи в чате",
@@ -22,8 +29,7 @@ class Chat(models.Model):
         users_queryset = self.users.all()
         for user in users_queryset:
             user_list.append(user.username)
-
-        return 'Chat_{0}, Users: {1}'.format(self.id, user_list)
+        return 'Chat_{0}, Users: {1}, Owner: {2}'.format(self.id, user_list, self.owner)
 
 
 class Message(models.Model):
