@@ -1,6 +1,6 @@
 from rest_framework import viewsets, mixins, status
 from rest_framework.response import Response
-
+from rest_framework.permissions import IsAdminUser, IsAuthenticated, DjangoObjectPermissions, IsAuthenticatedOrReadOnly
 from .services import read_chat_list, read_messages_from_chat_list
 from .serializers import ChatSerializer, MessageSerializer
 
@@ -8,6 +8,8 @@ from .serializers import ChatSerializer, MessageSerializer
 class ChatAPIViewSet(viewsets.ModelViewSet):
     queryset = read_chat_list()
     serializer_class = ChatSerializer
+    # permission_classes =
+    permission_classes = (IsAuthenticatedOrReadOnly,)
 
 
 class MessageAPIViewSet(mixins.CreateModelMixin,

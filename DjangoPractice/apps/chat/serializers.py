@@ -3,12 +3,14 @@ from rest_framework import serializers
 from .models import Attachment, Chat, Message
 from django.core.files.uploadedfile import InMemoryUploadedFile
 
+# TODO: Починить owner поле
+
 
 class ChatSerializer(serializers.ModelSerializer):
     class Meta:
         model = Chat
         fields = '__all__'
-        read_only_fields = ['owner']
+        # read_only_fields = ['owner']
 
     owner = serializers.HiddenField(default=serializers.CurrentUserDefault())
 
