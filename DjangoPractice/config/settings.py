@@ -32,7 +32,6 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'django_light',
     'rest_framework',
 
     'django.contrib.admin',
@@ -88,7 +87,7 @@ DATABASES = {
         'NAME': 'django-practice-db',
         'USER': 'postgres',
         'PASSWORD': 'postgres',
-        'HOST': '127.0.0.1',
+        'HOST': 'db',
         'PORT': '5432',
     }
 }

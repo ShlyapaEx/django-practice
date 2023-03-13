@@ -1,0 +1,33 @@
+version: '3.10'
+
+services:
+  db:
+    image: postgres:13-alpine
+    volumes:
+      - django_postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=django-practice-db
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    expose:
+      - 5432
+    ports:
+      - 5432:5432
+  django_app:
+    build: .
+    env_file:
+      - .env
+    command: > 
+      sh -c "python3 DjangoPractice/manage.py migrate && 
+      python3 DjangoPractice/manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - .:/DjangoPractice
+    ports:
+      - 8000:8000
+    depends_on:
+      - db
+    restart: always
+
+volumes:
+  django_postgres_data:
