@@ -12,9 +12,10 @@ class User(AbstractUser):
         return 'users/user_{0}/{1}'.format(instance.username, filename)
 
     photo = models.ImageField("аватарка пользователя",
-                              upload_to=get_user_directory_path)
-    birth_date = models.DateField(
-        "дата рождения пользователя", default=now, null=False, blank=False)
+                              upload_to=get_user_directory_path,
+                              null=True)
+    birth_date = models.DateField("дата рождения пользователя", default=now,
+                                  null=False, blank=False)
     friends = models.ManyToManyField("self")
 
     class Meta:
