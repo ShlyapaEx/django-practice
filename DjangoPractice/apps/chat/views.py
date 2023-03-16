@@ -6,8 +6,8 @@ from rest_framework.response import Response
 from .permissions import IsOwnerOrReadOnly
 from .serializers import (ChatSerializer, DetailChatSerializer,
                           MessageSerializer)
-from .services import (get_chats_for_user, read_chat_list,
-                       read_messages_from_chat_list)
+from .queries import (get_chats_for_user, read_chat_list,
+                      read_messages_from_chat_list)
 
 
 class ChatAPIViewSet(viewsets.ModelViewSet):

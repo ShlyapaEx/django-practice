@@ -19,7 +19,7 @@ def read_messages_from_chat_list() -> QuerySet:
 
 def get_chats_for_user(user) -> QuerySet:
     """
-    Функция get_chats_for_user возвращает набор запросов всех чатов,
+    Функция get_chats_for_user возвращает QuerySet всех чатов,
     в которых находится пользователь.
     """
     queryset = Chat.objects.prefetch_related('users').filter(users=user).all()
