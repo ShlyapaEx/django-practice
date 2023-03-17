@@ -5,7 +5,7 @@ from rest_framework.response import Response
 
 from .permissions import IsChatOwnerOrReadOnly, IsInChat, IsMessageSenderOrInChat
 from .serializers import (ChatSerializer, DetailChatSerializer,
-                          MessageSerializer)
+                          MessageSerializer, MessageUpdateSerializer)
 from .queries import (get_chats_for_user, read_chat_list,
                       read_messages_list)
 
@@ -41,3 +41,9 @@ class MessageAPIViewSet(mixins.CreateModelMixin,
 
     def perform_create(self, serializer):
         serializer.save(sender=self.request.user)
+
+    def get_serializer_class(self):
+        serializer_class = self.serializer_class
+        if self.action == 'update' or self.action == 'partial_update':
+            serializer_class = MessageUpdateSerializer
+        return serializer_class

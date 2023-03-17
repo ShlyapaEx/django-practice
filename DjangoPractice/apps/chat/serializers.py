@@ -3,12 +3,15 @@ from .models import Chat, Message
 
 
 class MessageSerializer(serializers.ModelSerializer):
-    sender = serializers.PrimaryKeyRelatedField(default=serializers.CurrentUserDefault(),
-                                                read_only=True)
+    sender = serializers.PrimaryKeyRelatedField(read_only=True)
 
     class Meta:
         model = Message
         fields = "__all__"
+
+
+class MessageUpdateSerializer(MessageSerializer):
+    chat = serializers.PrimaryKeyRelatedField(read_only=True)
 
 
 class ChatSerializer(serializers.ModelSerializer):
