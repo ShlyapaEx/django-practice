@@ -19,9 +19,8 @@ class IsChatOwnerOrReadOnly(permissions.BasePermission):
 
 class IsInChat(permissions.BasePermission):
     """
-    The has_permission function checks if the user is in the chat.
-    If so, it returns True and allows them to send a message.
-    Otherwise, it returns False and does not allow them to send a message.
+    Разрешение позволяющее читать сообщения только пользователям,
+    находящимся в чате
     """
 
     def has_permission(self, request, view):
@@ -29,16 +28,13 @@ class IsInChat(permissions.BasePermission):
                                           chat_id=request.data.get('chat'))
 
 
-class IsMessageSenderOrInChat(permissions.BasePermission):
+class IsMessageSender(permissions.BasePermission):
     """
-    Разрешение на уровне объекта Message, позволяющее читать его 
-    только пользователям, находящимся в одном чате с отправителем
-    и позволяющее редактировать сообщение только его отправителю.
+    Разрешение на уровне объекта Message,
+    позволяющее редактировать сообщение только его отправителю.
     """
 
     def has_object_permission(self, request, view, message: Message):
-        current_user = request.user
-        if (request.method in permissions.SAFE_METHODS
-                and user_is_in_chat_with_message(user=current_user, message=message)):
+        if request.method in permissions.SAFE_METHODS:
             return True
-        return message.sender == current_user
+        return message.sender == request.user
