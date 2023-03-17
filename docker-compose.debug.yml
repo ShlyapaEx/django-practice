@@ -17,6 +17,7 @@ services:
       - 3000:3000
     depends_on:
       - db
+    restart: always
   db:
     image: postgres:13-alpine
     volumes:
