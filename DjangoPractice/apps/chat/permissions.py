@@ -1,6 +1,6 @@
 from rest_framework import permissions
 
-from .queries import user_is_in_chat_with_message, user_is_in_chat_by_chat_id
+from .queries import user_is_in_chat_by_chat_id
 
 from .models import Chat, Message
 

@@ -34,9 +34,3 @@ def user_is_in_chat_by_chat_id(user, chat_id) -> bool:
     chat_found = Chat.objects.prefetch_related('users') \
                              .filter(pk=chat_id, users=user).exists()
     return chat_found
-
-
-def user_is_in_chat_with_message(user, message) -> bool:
-    chat_found = Chat.objects.prefetch_related('users') \
-                             .filter(messages=message, users=user).exists()
-    return chat_found
