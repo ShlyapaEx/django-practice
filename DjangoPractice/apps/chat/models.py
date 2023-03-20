@@ -1,7 +1,5 @@
 from django.db import models
-from django.db.models.signals import post_save
 from django.conf import settings
-from django.dispatch import receiver
 
 
 class Chat(models.Model):
@@ -27,8 +25,7 @@ class Chat(models.Model):
 class Message(models.Model):
     """Сообщение, отправляемое пользователем"""
 
-    chat = models.ForeignKey('Chat',
-                             on_delete=models.CASCADE,
+    chat = models.ForeignKey('Chat', on_delete=models.CASCADE,
                              verbose_name="чат с сообщением",
                              related_name="messages")
 
