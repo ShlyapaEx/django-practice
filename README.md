@@ -44,9 +44,9 @@
     
 3. Для остановки сервера необходимо выполнить команду
 
-```bash
-docker-compose down
-```
+    ```bash
+    docker-compose down
+    ```
 
 ***
 
